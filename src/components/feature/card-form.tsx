@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FormField } from "../ui/form";
+import { toast } from "../ui/use-toast";
 
 type FormValues = {
   name: string;
@@ -38,7 +39,17 @@ export function CardWithForm() {
       company: "Endava Malaysia",
     },
   });
-  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log(data);
+    toast({
+      title: "Generating badge with the following information:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    });
+  };
   return (
     <Card className="w-[350px]">
       <CardHeader>
