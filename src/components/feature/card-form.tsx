@@ -30,10 +30,14 @@ export function CardWithForm() {
   const {
     register,
     handleSubmit,
-    watch,
     control,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      company: "Endava Malaysia",
+    },
+  });
   const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
   return (
     <Card className="w-[350px]">
@@ -51,8 +55,14 @@ export function CardWithForm() {
               <Input
                 id="name"
                 placeholder="Your name on the badge"
-                {...register("name")}
+                className={errors.name ? "border-red-600" : ""}
+                {...register("name", { required: "Name is required." })}
               />
+              {errors.name && (
+                <span className="text-sm text-red-600">
+                  {errors?.name?.message}
+                </span>
+              )}
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Company</Label>
