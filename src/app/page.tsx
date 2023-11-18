@@ -29,7 +29,9 @@ export default function Home() {
 
       <CardWithForm />
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left"></div>
+      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-[fit-content] lg:text-left">
+        Copyright &copy; {new Date().getFullYear()} Endava Malaysia
+      </div>
     </main>
   );
 }
