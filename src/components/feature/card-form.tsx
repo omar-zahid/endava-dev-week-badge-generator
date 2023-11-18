@@ -39,16 +39,31 @@ export function CardWithForm() {
       company: "Endava Malaysia",
     },
   });
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    toast({
-      title: "Generating badge with the following information:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const response = await fetch("/api", {
+        method: "post",
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${data.name}.pdf`;
+      a.click();
+      toast({
+        title: "Badge generated successfully",
+        description: "Your badge has been generated successfully.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: `Failed to generate badge: ${error.message}`,
+      });
+    }
   };
   return (
     <Card className="w-[350px]">
